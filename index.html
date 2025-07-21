@@ -1,15 +1,170 @@
-<html>
-  <h1>
-    Hey, I'm Chaose3
-  </h1>
-  <body>
-    <h2>About Me</h2>
-    <p>
-      I am a Minecraft and Clash royale player
-    </p>
-    <h2>What I'm working on right now</h2>
-    <p>
-      I am really into the stock market and am trying to make a stock trading bot
-    </p>
-  </body>
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chaose3 | Portfolio</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f4f4;
+      --text: #000;
+      --card-bg: #fff;
+      --primary: #0366d6;
+      --header-bg: #24292e;
+      --button-bg: var(--primary);
+      --button-text: #fff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --text: #eee;
+        --card-bg: #1e1e1e;
+        --primary: #58a6ff;
+        --header-bg: #0d1117;
+        --button-bg: var(--primary);
+        --button-text: #fff;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    header {
+      background-color: var(--header-bg);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    h1, h2 {
+      margin-bottom: 1rem;
+    }
+
+
+    .repo a {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .repo p {
+      margin: 0.5rem 0;
+      line-height: 1.5;
+    }
+
+    .centered {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    footer {
+      text-align: center;
+      color: #aaa;
+      padding: 2rem 0;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1><strong>Chaose3</strong></h1>
+</header>
+
+<main>
+  <h2>Pinned Projects</h2>
+  <div id="pinned-projects">Loading...</div>
+
+  <div class="centered">
+    <a href="https://spotify-github-profile.kittinanx.com/api/view?uid=31kk26po4edf6cl3ilikbvd25cmm&redirect=true" target="_blank" rel="noopener noreferrer">
+      <img
+              src="https://spotify-github-profile.kittinanx.com/api/view?uid=31kk26po4edf6cl3ilikbvd25cmm&cover_image=true&theme=default&show_offline=false&background_color=121212&interchange=false&bar_color_cover=false"
+              alt="Spotify GitHub Profile"
+              style="max-width: 100%; height: auto;"
+      />
+    </a>
+  </div>
+
+  <h2>All Projects</h2>
+  <div id="repos">Loading...</div>
+</main>
+
+<footer>
+  &copy; <span id="year"></span> Chaose3
+</footer>
+
+<script>
+  const username = "chaose3";
+
+  async function loadRepos() {
+    const repoContainer = document.getElementById('repos');
+    const pinnedContainer = document.getElementById('pinned-projects');
+    try {
+      const res = await fetch(`https://api.github.com/users/${username}/repos?sort=updated`);
+      const repos = await res.json();
+
+      repoContainer.innerHTML = '';
+      pinnedContainer.innerHTML = '';
+
+      const pinned = ["Chaotick", "Form Flooder"];
+      let delay = 0;
+
+      repos.forEach(repo => {
+        const el = document.createElement('div');
+        el.className = 'repo';
+        el.style.animationDelay = `${delay}s`;
+        delay += 0.1;
+
+        el.innerHTML = `
+          <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a>
+          <p>${repo.description || 'No description'}</p>
+          <p><small>⭐ ${repo.stargazers_count} | Updated ${new Date(repo.updated_at).toLocaleDateString()}</small></p>
+        `;
+
+        if (pinned.includes(repo.name)) {
+          pinnedContainer.appendChild(el.cloneNode(true));
+        }
+
+        repoContainer.appendChild(el);
+      });
+    } catch (err) {
+      repoContainer.innerHTML = 'Failed to load repositories.';
+      pinnedContainer.innerHTML = 'Failed to load pinned projects.';
+    }
+  }
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+  loadRepos();
+</script>
+
+</body>
 </html>
