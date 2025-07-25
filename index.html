@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,23 +8,33 @@
     :root {
       color-scheme: light dark;
       --bg: #f4f4f4;
-      --text: #000;
-      --card-bg: #fff;
+      --text: #000000;
+      --card-bg: #ffffff;
       --primary: #0366d6;
       --header-bg: #24292e;
       --button-bg: var(--primary);
-      --button-text: #fff;
+      --button-text: #ffffff;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #121212;
+      --text: #eeeeee;
+      --card-bg: #1e1e1e;
+      --primary: #58a6ff;
+      --header-bg: #0d1117;
+      --button-bg: var(--primary);
+      --button-text: #ffffff;
     }
 
     @media (prefers-color-scheme: dark) {
-      :root {
+      :root:not([data-theme]) {
         --bg: #121212;
-        --text: #eee;
+        --text: #eeeeee;
         --card-bg: #1e1e1e;
         --primary: #58a6ff;
         --header-bg: #0d1117;
         --button-bg: var(--primary);
-        --button-text: #fff;
+        --button-text: #ffffff;
       }
     }
 
@@ -37,14 +47,20 @@
       font-family: system-ui, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
     }
 
     header {
       background-color: var(--header-bg);
-      color: white;
+      color: var(--button-text);
       padding: 1rem;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      user-select: none;
     }
 
     main {
@@ -56,7 +72,6 @@
     h1, h2 {
       margin-bottom: 1rem;
     }
-
 
     .repo a {
       color: var(--primary);
@@ -82,6 +97,34 @@
       padding: 2rem 0;
     }
 
+    #toggle-theme {
+      background-color: var(--button-bg);
+      border: none;
+      color: var(--button-text);
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      flex-shrink: 0;
+    }
+    #toggle-theme:hover {
+      background-color: #024ea2;
+    }
+
+    figure {
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+
+    figure embed {
+      border: none;
+      width: 100%;
+      height: 200px; /* fixed height */
+      display: block;
+    }
+
     @keyframes slideIn {
       from {
         transform: translateY(30px);
@@ -98,6 +141,7 @@
 
 <header>
   <h1><strong>Chaose3</strong></h1>
+  <button id="toggle-theme" aria-label="Toggle dark mode">Switch to Light Mode</button>
 </header>
 
 <main>
@@ -116,6 +160,15 @@
 
   <h2>All Projects</h2>
   <div id="repos">Loading...</div>
+
+  <h2>My WakaTime Stats</h2>
+  <figure>
+    <embed
+            src="https://wakatime.com/share/@Chaose3/7c2bbe5c-05a1-46b3-a645-ae95a493e244.svg"
+            loading="lazy"
+            title="WakaTime Coding Stats"
+    >
+  </figure>
 </main>
 
 <footer>
@@ -123,6 +176,27 @@
 </footer>
 
 <script>
+  // Dark mode toggle logic
+  const toggleBtn = document.getElementById('toggle-theme');
+  const root = document.documentElement;
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    toggleBtn.textContent = theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+    localStorage.setItem('theme', theme);
+  }
+
+  // Load saved theme or default to dark
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  applyTheme(savedTheme);
+
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = root.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    applyTheme(newTheme);
+  });
+
+  // Load GitHub repos and pinned projects
   const username = "chaose3";
 
   async function loadRepos() {
