@@ -125,6 +125,18 @@
       display: block;
     }
 
+    #snake-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      text-align: center;
+    }
+
+    #snake-container img {
+      max-width: 100%;
+      height: auto;
+      display: inline-block;
+    }
+
     @keyframes slideIn {
       from {
         transform: translateY(30px);
@@ -148,15 +160,15 @@
   <h2>Pinned Projects</h2>
   <div id="pinned-projects">Loading...</div>
 
-<div style="text-align: center; margin: 2rem 0;">
-  <a href="https://spotify-github-profile.kittinanx.com/api/view?uid=31kk26po4edf6cl3ilikbvd25cmm&redirect=true" target="_blank" rel="noopener noreferrer">
-    <img
-      src="https://spotify-github-profile.kittinanx.com/api/view?uid=31kk26po4edf6cl3ilikbvd25cmm&cover_image=true&theme=default&show_offline=true&background_color=121212&interchange=true&bar_color_cover=false"
-      alt="Spotify GitHub Profile"
-      style="max-width: 100%; height: auto;"
-    />
-  </a>
-</div>
+  <div class="centered">
+    <a href="https://spotify-github-profile.kittinanx.com/api/view?uid=31kk26po4edf6cl3ilikbvd25cmm&redirect=true" target="_blank" rel="noopener noreferrer">
+      <img
+              src="https://spotify-github-profile.kittinanx.com/api/view?uid=31kk26po4edf6cl3ilikbvd25cmm&cover_image=true&theme=default&show_offline=false&background_color=121212&interchange=false&bar_color_cover=false"
+              alt="Spotify GitHub Profile"
+              style="max-width: 100%; height: auto;"
+      />
+    </a>
+  </div>
 
   <h2>All Projects</h2>
   <div id="repos">Loading...</div>
@@ -169,6 +181,15 @@
             title="WakaTime Coding Stats"
     >
   </figure>
+
+  <div id="snake-container">
+    <h2>🐍 My Contributions 🐍</h2>
+    <br />
+    <img
+            src="https://Chaose3.github.io/Chaose3/snake.svg"
+            alt="GitHub Snake Animation"
+    />
+  </div>
 </main>
 
 <footer>
